@@ -7,21 +7,16 @@ def print_sudoku():
 def checkRow(a,b,num:int):
     if num in sudoku[a]:
         return False
-    return True
-
-def checkCol(a,b,num:int):
+    
     for i in range(9):
         if sudoku[i][b] == num:
             return False
-    return True
 
-def checkBox(a,b,num):
     row = a//3
     col = b//3
     for i in range(3*(row),3*(row+1)):
         if num in sudoku[i][3*(col):3*(col+1)]:
             return False
-
     return True
 
 def func_sudoku(index:int):
@@ -31,7 +26,7 @@ def func_sudoku(index:int):
     else:
         row,col = empty[index]
         for num in num_set[row]:
-            if checkRow(row,col,num) and checkCol(row,col,num) and checkBox(row,col,num):
+            if checkRow(row,col,num):
                 sudoku[row][col] = num
                 func_sudoku(index+1)
                 sudoku[row][col] = 0
