@@ -14,13 +14,9 @@ if number >= 2:
     dp[2][2] = number_list[2] + number_list[1]
     
     for i in range(3,number+1):
-        dp[i][0] = max(dp[i-1][0],dp[i-1][1],dp[i-1][2])
+        dp[i][0] = max(dp[i-1])
         dp[i][1] = dp[i-1][0] + number_list[i]
         dp[i][2] = dp[i-1][1] + number_list[i]
-
-    # for i in range(len(dp)):
-    #     print(i,":",dp[i])
-
     
     print(max(max(dp[number]),max(dp[number-1])))
 else:
