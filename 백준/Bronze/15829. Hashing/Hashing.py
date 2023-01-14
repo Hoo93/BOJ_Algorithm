@@ -7,7 +7,6 @@ word = input().rstrip()
 dic = {}
 answer = 0
 hash = 1
-
 for i in range(97,123):
     dic[chr(i)] = i-96
 
