@@ -5,11 +5,9 @@ input = sys.stdin.readline
 n = int(input().rstrip())
 meetings = [list(map(int,input().rstrip().split())) for _ in range(n)] 
 
-meetings.sort(key= lambda x:x[1])
-meetings.sort(key= lambda x:x[0])    
+meetings.sort()
     
-result = []
-result.append(meetings[0])
+result = [meetings[0]]
 
 for i in range(1,n):
     if meetings[i][1] < result[-1][1]:
