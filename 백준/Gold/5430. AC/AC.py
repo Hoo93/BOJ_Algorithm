@@ -13,26 +13,23 @@ for _ in range(n):
     num_list.pop()
 
     front = 0
-    back = -1
-    command_list = ("DR"+command).split("R")
+    back = 0
+    command_list = command.replace("RR","").split("R")
     for i in command_list[0::2]:
-        back += len(i)
-    for i in command_list[1::2]:
         front += len(i)
+    for i in command_list[1::2]:
+        back += len(i)
     end = length-back
 
-    if front +back > length:
+    if front + back > length:
         print("error")
     else:
         if (len(command) - front - back) % 2 == 0 :
             is_reverse = False
         else:
             is_reverse = True
-        
+
         if is_reverse:
-            if front == 0:
-                print(f'[{",".join(num_list[end-1::-1])}]')
-            else:
-                print(f'[{",".join(num_list[end-1:front-1:-1])}]')
+            print(f'[{",".join(reversed(num_list[front:end]))}]')
         else:
             print(f'[{",".join(num_list[front:end])}]')
