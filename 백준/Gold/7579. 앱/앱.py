@@ -3,19 +3,19 @@ import bisect
 
 n,m = map(int,sys.stdin.readline().rstrip().split())
 
-memories =[0]+ list(map(int,sys.stdin.readline().rstrip().split()))
-costs =[0]+ list(map(int,sys.stdin.readline().rstrip().split()))
-INF = 1e8
-length = sum(costs)+1
-dp = [ [0 for _ in range(length)] for _ in range(n+1)]
+memories = list(map(int,sys.stdin.readline().rstrip().split()))
+costs = list(map(int,sys.stdin.readline().rstrip().split()))
 
-for i in range(1,n+1):
-    memory = memories[i]
+s = sum(costs)
+dp = [0]*(s+1)
+
+for i in range(n):
     cost = costs[i]
+    memory = memories[i]
+    for j in range(s,cost-1,-1):
+        dp[j] = max(dp[j-cost]+memory,dp[j])
 
-    for j in range(length-1,cost-1,-1):
-        dp[i][j] = max(dp[i-1][j-cost]+memory,dp[i-1][j])
-    for j in range(cost):
-        dp[i][j] = dp[i-1][j]
-
-print(bisect.bisect_left(dp[n],m))
+for i in range(s+1):
+    if dp[i] >= m:
+        print(i)
+        break
