@@ -1,17 +1,19 @@
 import sys
+import bisect
+import copy
 
-input = sys.stdin.readline
-num = int(input().rstrip())
-num_list =list(map(int,input().rstrip().split()))
+length = int(sys.stdin.readline().rstrip())
+num_list = list(map(int,sys.stdin.readline().rstrip().split()))
 
-dp = [0 for _ in range(num)]
+dp = [0 for _ in range(length)]
+
 dp[0] = 1
-idx,maximum = 0,num_list[0]
-for i in range(1,num):
+
+for i in range(1,length):
     for j in range(i):
-        if num_list[i] > num_list[j] and dp[i] < dp[j]:
-            dp[i]= dp[j]
-    dp[i] += 1
+        if num_list[i] > num_list[j]:
+            dp[i] = max(dp[i],dp[j]+1)
+        else:
+            dp[i] = max(dp[i],1)
 
 print(max(dp))
-    
