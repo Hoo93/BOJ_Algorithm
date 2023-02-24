@@ -7,8 +7,6 @@ coins = []
 for _ in range(n):
     coins.append(int(sys.stdin.readline().rstrip()))
 
-coins.sort()
-
 dp = [ 0 for _ in range(k+1)]
 dp[0] = 1
 for i in range(1,k//coins[0]+1):
