@@ -12,7 +12,7 @@ str_two = sys.stdin.readline().rstrip()
 row = len(str_one)
 col = len(str_two)
 
-dp = [[(0, "") for _ in range(col + 1)] for _ in range(row + 1)]
+dp = [[0 for _ in range(col + 1)] for _ in range(row + 1)]
 
 # queue = deque([(0, 0)])
 
@@ -45,15 +45,24 @@ dp = [[(0, "") for _ in range(col + 1)] for _ in range(row + 1)]
 for r in range(row):
     for c in range(col):
         if str_one[r] == str_two[c]:
-            dp[r + 1][c + 1] = (dp[r][c][0] + 1, dp[r][c][1] + str_one[r])
+            dp[r + 1][c + 1] = dp[r][c] + 1
         else:
-            if dp[r + 1][c][0] >= dp[r][c + 1][0]:
-                dp[r + 1][c + 1] = dp[r + 1][c]
-            else:
-                dp[r + 1][c + 1] = dp[r][c + 1]
+            dp[r + 1][c + 1] = max(dp[r + 1][c], dp[r][c + 1])
 
-if dp[row][col][0] == 0:
+now = dp[row][col]
+ans = ""
+r, c = row, col
+if now == 0:
     print(0)
 else:
-    print(dp[row][col][0])
-    print(dp[row][col][1])
+    print(now)
+    while now > 0:
+        if dp[r - 1][c] == dp[r][c - 1] == now - 1:
+            ans = str_one[r - 1] + ans
+            r, c = r - 1, c - 1
+            now -= 1
+        elif dp[r - 1][c] > dp[r][c - 1]:
+            r, c = r - 1, c
+        else:
+            r, c = r, c - 1
+    print(ans)
