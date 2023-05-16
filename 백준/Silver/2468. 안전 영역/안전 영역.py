@@ -12,7 +12,6 @@ mx_h = 0
 for i in board:
     mx_h = max(mx_h, max(i))
 
-
 def bfs(y, x, h, visited):
     que = deque()
     que.append((y, x))
@@ -35,7 +34,6 @@ def bfs(y, x, h, visited):
 
             que.append((ny, nx))
 
-
 def getCnt(h):
     visited = [[False for _ in range(N)] for _ in range(N)]
     cnt = 0
@@ -50,13 +48,11 @@ def getCnt(h):
 
     return cnt
 
-
 def getSafearea(mx):
     result = 0
     for i in range(mx + 1):
         result = max(result, getCnt(i))
 
     return result
-
 
 print(getSafearea(mx_h))
