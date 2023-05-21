@@ -6,20 +6,19 @@ sys.setrecursionlimit(10**6)
 
 
 def findRoot(node):
-    if node == parent[node]:
+    if parent[node] == node:
         return node
-    super = findRoot(parent[node])
-    parent[node] = super
+    root = findRoot(parent[node])
+    parent[node] = root
     return parent[node]
 
 
 def union(node1, node2):
     node1 = findRoot(node1)
     node2 = findRoot(node2)
-
     if node1 == node2:
         return
-    if node1 < node2:
+    elif node1 < node2:
         parent[node2] = node1
     else:
         parent[node1] = node2
