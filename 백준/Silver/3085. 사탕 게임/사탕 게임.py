@@ -53,24 +53,30 @@ def changeBoard(n_board,node_1,node_2):
     
     return board
 
-if findMaxLen(board) == size:
-    print(size)
-else:
-    result = 0
+def getMaxLen():
+    if findMaxLen(board) == size:
+        return size
+    else:
+        result = 0
 
-    for i in range(size):
-        for j in range(size-1):
-            if board[i][j] != board[i][j+1]:
-                result = max(result,findMaxLen(changeBoard(board,(i,j),(i,j+1))))
-
-            else:
-                continue
+        for i in range(size):
+            for j in range(size-1):
+                if board[i][j] != board[i][j+1]:
+                    result = max(result,findMaxLen(changeBoard(board,(i,j),(i,j+1))))
+                    if result == size:
+                        return size
+                else:
+                    continue
+                
+        for j in range(size):
+            for i in range(size-1):
+                if board[i][j] != board[i+1][j]:
+                    result = max(result,findMaxLen(changeBoard(board,(i,j),(i+1,j))))
+                    if result == size:
+                        return size
+                else:
+                    continue
+                
+        return result
     
-    for j in range(size):
-        for i in range(size-1):
-            if board[i][j] != board[i+1][j]:
-                result = max(result,findMaxLen(changeBoard(board,(i,j),(i+1,j))))
-            else:
-                continue
-    
-    print(result)
+print(getMaxLen())
