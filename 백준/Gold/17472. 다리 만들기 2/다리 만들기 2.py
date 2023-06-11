@@ -5,13 +5,6 @@ from collections import deque
 # row,col = map(int,f.readline().rstrip().split())
 # board = [ list(map(int,f.readline().rstrip().split())) for _ in range(row) ]
 
-row,col = map(int,sys.stdin.readline().rstrip().split())
-board = [ list(map(int,sys.stdin.readline().rstrip().split())) for _ in range(row) ]
-
-visited= [ [ False for _ in range(col) ] for _ in range(row) ]
-delta = ((-1,0),(1,0),(0,1),(0,-1))
-
-bridges = []
 
 def bfs(r,c,flag):
     queue = deque()
@@ -85,6 +78,15 @@ def union(n1,n2):
     else:
         roots[n1] = n2
 
+row,col = map(int,sys.stdin.readline().rstrip().split())
+board = [ list(map(int,sys.stdin.readline().rstrip().split())) for _ in range(row) ]
+
+visited= [ [ False for _ in range(col) ] for _ in range(row) ]
+delta = ((-1,0),(1,0),(0,1),(0,-1))
+
+bridges = []
+result = 0
+cnt = 0
 
 flag = 2
 start_point = []
@@ -101,7 +103,7 @@ for r,c,flag in start_point:
     findBrdige(r,c,flag)
 
 bridges.sort()
-result = 0
+
 for length,node1,node2 in bridges:
     if length < 2:
         continue
@@ -110,10 +112,8 @@ for length,node1,node2 in bridges:
     else:
         result += length
         union(node1,node2)
+        cnt += 1
 
-for i in roots[2:]:
-    if find(i) != 2:
-        result = -1
-        break
-    
+if len(roots) - 3 != cnt:
+    result = -1
 print(result)
