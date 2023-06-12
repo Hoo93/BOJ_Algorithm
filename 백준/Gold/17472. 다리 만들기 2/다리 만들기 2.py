@@ -52,6 +52,8 @@ def findBrdige(r,c,flag):
                     elif board[ny][nx] == flag:
                         break
                     elif board[ny][nx] != 0 and board[ny][nx] != flag:
+                        if length < 1:
+                            break
                         bridges.append((length+1,flag,board[ny][nx]))
                         break
                     else:
