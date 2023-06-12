@@ -1,0 +1,1 @@
+print(int(input().rstrip())+int(input().rstrip()))
