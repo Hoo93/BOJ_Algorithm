@@ -85,8 +85,6 @@ visited= [ [ False for _ in range(col) ] for _ in range(row) ]
 delta = ((-1,0),(1,0),(0,1),(0,-1))
 
 bridges = []
-result = 0
-cnt = 0
 
 flag = 2
 start_point = []
@@ -103,7 +101,8 @@ for r,c,flag in start_point:
     findBrdige(r,c,flag)
 
 bridges.sort()
-
+result = 0
+cnt = 0
 for length,node1,node2 in bridges:
     if length < 2:
         continue
