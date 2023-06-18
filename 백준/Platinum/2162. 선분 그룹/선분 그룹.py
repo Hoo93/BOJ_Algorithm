@@ -25,21 +25,13 @@ def isCrossed(line1,line2):
             return False
 
         elif tmp3*tmp4 == 0:
-            # if x1 == x2 == x3 == x4:
-            #     if ((y1 <= y4) and (y3 <= y2)):
-            #         return True
-            #     else:
-            #         return False
-                
-            # else:
-            if tmp1 == 0 and tmp2 == 0:
-                if ((x1 <= x4) and (x3 <= x2)) and ((y1 <= y4) and (y3 <= y2)):
-                    return True
-                else:
-                    return False
-            else:
+            if tmp1 != 0 or tmp2 != 0:
                 return True
-
+            
+            if ((x1 <= x4) and (x3 <= x2)) and ((y1 <= y4) and (y3 <= y2)):
+                return True
+            else:
+                return False
             
         else:
             return True
