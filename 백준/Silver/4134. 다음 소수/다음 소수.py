@@ -24,17 +24,16 @@ for _ in range(int(f.readline().rstrip())):
         if N % 2 == 0: 
             N += 1
         
-        flag = True
-        
-        while flag:
-            flag = False
+        while True:
+            flag = True
             for idx in range(bisect_right(prime,math.sqrt(N))):
                 if N % prime[idx] != 0:
                     continue
                 else:
                     N += 2
-                    flag = True
+                    flag = False
                     break
+            if flag: break
             
         print(N)
                     
