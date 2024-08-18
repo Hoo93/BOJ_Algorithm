@@ -1,14 +1,18 @@
-# [Gold IV] 감시 - 15683 
+# [Gold III] 감시 - 15683 
 
 [문제 링크](https://www.acmicpc.net/problem/15683) 
 
 ### 성능 요약
 
-메모리: 34304 KB, 시간: 2520 ms
+메모리: 14804 KB, 시간: 76 ms
 
 ### 분류
 
-브루트포스 알고리즘(bruteforcing), 구현(implementation), 시뮬레이션(simulation)
+백트래킹, 브루트포스 알고리즘, 구현, 시뮬레이션
+
+### 제출 일자
+
+2024년 8월 18일 19:27:40
 
 ### 문제 설명
 
