@@ -12,8 +12,6 @@ var (
 	//sc      = bufio.NewScanner(file)
 	sc   = bufio.NewScanner(os.Stdin)
 	wr    = bufio.NewWriter(os.Stdout)
-	num_list []int
-	N,L int
 )
 
 type Pair struct {
@@ -22,14 +20,22 @@ type Pair struct {
 }
 
 func main() {
-	input()
+	// input 을 띄어쓰기, \n 단위로 입력받기
+	sc.Split(bufio.ScanWords)
+
+	// 배열에 숫자 입력 받기
+	N, L := nextInt(), nextInt()
+	numList := make([]int, N)
+	for i := 0; i < N; i++ {
+		numList[i] = nextInt()
+	}
 
 	d := make([]int,N)
-    dq := make([]Pair,0,L)
+	dq := make([]Pair,0,L)
 
 	for idx := 0; idx < N; idx++ {
 		// 입력 하는 값보다 큰 값은 최소 값에서 제외되야 하므로 pop
-		for len(dq) > 0 && dq[len(dq)-1].value > num_list[idx] {
+		for len(dq) > 0 && dq[len(dq)-1].value > numList[idx] {
 			dq = dq[:len(dq)-1]
 		}
 
@@ -37,7 +43,7 @@ func main() {
 			dq = dq[1:]
 		}
 
-		dq = append(dq,Pair{index: idx, value:num_list[idx]})
+		dq = append(dq,Pair{index: idx, value: numList[idx]})
 
 		d[idx] = dq[0].value
 	}
@@ -45,21 +51,7 @@ func main() {
 	for _,value := range d {
 		fmt.Fprintf(wr,"%d ",value)
 	}
-    wr.Flush()
-}
-
-
-
-func input() {
-	// input 을 띄어쓰기, \n 단위로 입력받기
-	sc.Split(bufio.ScanWords)
-
-	// 배열에 숫자 입력 받기
-	N, L = nextInt(), nextInt()
-	num_list = make([]int, N)
-	for i := 0; i < N; i++ {
-		num_list[i] = nextInt()
-	}
+	wr.Flush()
 }
 
 // 입력 받은 숫자를 Int 로 형변환
