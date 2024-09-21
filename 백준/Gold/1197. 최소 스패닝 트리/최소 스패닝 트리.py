@@ -1,47 +1,38 @@
 import sys
+import heapq
 
-V,E = map(int,sys.stdin.readline().rstrip().split())
+# f = open('input.txt', 'r')
+# input = f.readline
+input = sys.stdin.readline
 
-graphs = []
-roots = [ i for i in range(V+1)]
+V, E = map(int, input().split())
+# 1~V 까지 V 개의 정점이 존재
+edges = [[] for _ in range(V + 1)]
+result = 0
 
-def find(node):
-    if roots[node] == node:
-        return node
-    
-    root = find(roots[node])
-    roots[node] = root
-    return roots[node]
-
-
-def union(node1,node2):
-    rNode1,rNode2 = find(node1),find(node2)
-    
-    if rNode1 == rNode2:
-        return 
-    elif rNode1 < rNode2:
-        roots[rNode2] = rNode1
-    else:
-        roots[rNode1] = rNode2
-    
-    return 
-
-    
-
+# 간선 세팅 (value, node)
 for _ in range(E):
-    s,e,d = map(int,sys.stdin.readline().rstrip().split())
-    graphs.append((d,s,e))
+    node1, node2, value = map(int, input().split())
+    edges[node1].append((value, node2))
+    edges[node2].append((value, node1))
 
-graphs.sort()
+# 방문한 노드 확인
+issued = set()
 
-MST = 0
+# 1번 노드를 처음으로 방문한다고 가정
+issued.add(1)
+# 우선순위 큐 : value 를 기준으로 오름차순으로 정렬
+pq = []
+for edge in edges[1]:
+    heapq.heappush(pq, edge)
 
-for d,s,e in graphs:
-    if find(s) == find(e):
-        continue
-    else:
-        MST += d
-        union(s,e)
+while len(issued) < V:
+    value, node = heapq.heappop(pq)
+    if issued.__contains__(node): continue
 
+    result += value
+    issued.add(node)
+    for edge in edges[node]:
+        heapq.heappush(pq, edge)
 
-print(MST)
+print(result)
