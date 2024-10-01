@@ -1,14 +1,33 @@
 import sys
-from itertools import combinations
 
-N, S = map(int, sys.stdin.readline().split())
-nlt = sorted(map(int, sys.stdin.readline().split()))
+# format = cmd + opt + L
+
+# file = open('input.txt', 'r')
+# input = file.readline
+
+input = sys.stdin.readline
+
+N, S = map(int, input().strip().split())
+
+nums = sorted(map(int, input().strip().split()))
 
 result = 0
 
-for i in range(1, N + 1):
-    for j in combinations(nlt, i):
-        if sum(j) == S:
-            result += 1
+def backTracking(index: int, sum: int):
+    global result
+    if index == N and sum == S:
+        result += 1
+    if index >= N:
+        return
+    if sum > S and nums[index] > 0:
+        return
 
+    backTracking(index + 1, sum)
+    backTracking(index + 1, sum + nums[index])
+
+
+backTracking(0, 0)
+
+if S == 0:
+    result -= 1
 print(result)
