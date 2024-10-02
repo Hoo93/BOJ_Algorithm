@@ -1,81 +1,75 @@
 import sys
+from collections import deque
+
+# format = cmd + opt + L
+
+#file = open('input.txt', 'r')
+#input = file.readline
 
 input = sys.stdin.readline
-# file = open("input.txt", "r")
-# input = file.readline
 
-r, c = map(int, input().strip().split())
+WALL = '#'
+PERSON = 'J'
+FIRE = 'F'
+delta = [(-1, 0), (1, 0), (0, 1), (0, -1)]
 
-board = [input().rstrip() for _ in range(r)]
-visited = [["." for _ in range(c)] for _ in range(r)]
-delta = ((1, 0), (-1, 0), (0, 1), (0, -1))
+row, col = map(int, input().strip().split())
+boards = [input().strip() for _ in range(row)]
+
+# Track fire spread time
+fire_time = [[-1] * col for _ in range(row)]
+
+fires = deque()
+jihoon_start = None
+
+for r in range(row):
+    for c in range(col):
+        if boards[r][c] == FIRE:
+            fire_time[r][c] = 0
+            fires.append((r, c))
+        elif boards[r][c] == PERSON:
+            jihoon_start = (r, c)
+
+# Spread fire first
+while fires:
+    y, x = fires.popleft()
+
+    for dy, dx in delta:
+        ny, nx = y + dy, x + dx
+
+        if 0 <= ny < row and 0 <= nx < col and boards[ny][nx] != WALL and fire_time[ny][nx] == -1:
+            fire_time[ny][nx] = fire_time[y][x] + 1
+            fires.append((ny, nx))
 
 
-def findJ():
-    for i in range(r):
-        for j in range(c):
-            if board[i][j] == "J":
-                return [(i, j)]
+def bfs(start):
+    q = deque([start])
+    visited = [[-1] * col for _ in range(row)]
+    visited[start[0]][start[1]] = 0
 
+    while q:
+        y, x = q.popleft()
 
-def findFire():
-    result = []
-    for i in range(r):
-        for j in range(c):
-            if board[i][j] == "F":
-                result.append((i, j))
+        for dy, dx in delta:
+            ny, nx = y + dy, x + dx
 
-    return result
+            # Jihoon escapes if reaching boundary
+            if ny < 0 or ny >= row or nx < 0 or nx >= col:
+                return visited[y][x] + 1
 
-
-# Jihoon Queue One Cicle
-# dy,dx BFS Start
-# Not Using Visited
-# Change Board
-# Then BFS fireQueue One Cicle
-
-
-def bfs():
-    jihoonQueue = findJ()
-    fireQueue = findFire()
-
-    distance = 1
-    while jihoonQueue:
-
-        nJihoonQueue = []
-        while jihoonQueue:
-            y, x = jihoonQueue.pop()
-            if visited[y][x] == "F":
+            if boards[ny][nx] == WALL or visited[ny][nx] != -1:
                 continue
 
-            for dy, dx in delta:
-                ny, nx = dy + y, dx + x
-                if ny < 0 or nx < 0 or nx >= c or ny >= r:
-                    return distance
-                if board[ny][nx] != "." or visited[ny][nx] != ".":
-                    continue
-                visited[ny][nx] = "J"
-                nJihoonQueue.append((ny, nx))
-        jihoonQueue = nJihoonQueue
+            # Only move if fire hasn't reached or if Jihoon reaches before fire
+            if fire_time[ny][nx] == -1 or fire_time[ny][nx] > visited[y][x] + 1:
+                visited[ny][nx] = visited[y][x] + 1
+                q.append((ny, nx))
 
-        nFireQueue = []
-        while fireQueue:
-            y, x = fireQueue.pop()
-
-            for dy, dx in delta:
-                ny, nx = dy + y, dx + x
-                if ny < 0 or nx < 0 or nx >= c or ny >= r:
-                    continue
-                if board[ny][nx] != "." or visited[ny][nx] == "F":
-                    continue
-                visited[ny][nx] = "F"
-                nFireQueue.append((ny, nx))
-
-        fireQueue = nFireQueue
-
-        distance += 1
-
-    return "IMPOSSIBLE"
+    return 'IMPOSSIBLE'
 
 
-print(bfs())
+# Start BFS for Jihoon
+if jihoon_start:
+    print(bfs(jihoon_start))
+else:
+    print('IMPOSSIBLE')
