@@ -6,12 +6,13 @@ public class Solution {
         String a = sc.next();
         
         StringBuilder sb = new StringBuilder();
+        int difference = 'a' - 'A';
         
         for (char i : a.toCharArray()) {
-            // Upper Case
-            if (i - 'a' < 0) sb.append((char) (i + 32));
             // Lower Case
-            else sb.append((char) (i - 32));
+            if (i >= 'a') sb.append((char) (i - difference));
+            // Uppser Case
+            else sb.append((char) (i + difference));
         }
         
         System.out.printf(sb.toString());
